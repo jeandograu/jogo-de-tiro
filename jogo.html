@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mini FPS</title>
+
+<style>
+
+body{
+margin:0;
+overflow:hidden;
+background:black;
+font-family:Arial;
+}
+
+#game{
+position:relative;
+width:100vw;
+height:100vh;
+overflow:hidden;
+}
+
+#inimigo{
+position:absolute;
+width:120px;
+top:40%;
+left:60%;
+transform:translate(-50%,-50%);
+}
+
+#arma{
+position:absolute;
+bottom:0;
+left:50%;
+transform:translateX(-50%);
+width:350px;
+pointer-events:none;
+}
+
+#crosshair{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:30px;
+color:white;
+}
+
+#score{
+position:absolute;
+top:10px;
+left:10px;
+color:white;
+font-size:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="game">
+
+<div id="score">Score: 0</div>
+
+<div id="crosshair">+</div>
+
+<img id="inimigo" src="https://i.imgur.com/Z6X7K0y.png">
+
+<img id="arma" src="arma.png">
+
+</div>
+
+<script>
+
+let score = 0
+let arma = document.getElementById("arma")
+let inimigo = document.getElementById("inimigo")
+
+document.addEventListener("mousedown",atirar)
+document.addEventListener("touchstart",atirar)
+
+document.addEventListener("contextmenu",e=>e.preventDefault())
+
+document.addEventListener("keydown",e=>{
+
+if(e.key=="Shift"){
+arma.src="arma_mira.png"
+}
+
+})
+
+document.addEventListener("keyup",e=>{
+
+if(e.key=="Shift"){
+arma.src="arma.png"
+}
+
+})
+
+function atirar(){
+
+arma.src="arma_tiro.png"
+
+setTimeout(()=>{
+arma.src="arma.png"
+},100)
+
+let enemyRect = inimigo.getBoundingClientRect()
+
+let cx = window.innerWidth/2
+let cy = window.innerHeight/2
+
+if(
+cx > enemyRect.left &&
+cx < enemyRect.right &&
+cy > enemyRect.top &&
+cy < enemyRect.bottom
+){
+
+score++
+document.getElementById("score").innerText="Score: "+score
+
+moverInimigo()
+
+}
+
+}
+
+function moverInimigo(){
+
+let x = Math.random()*80+10
+let y = Math.random()*60+20
+
+inimigo.style.left = x+"%"
+inimigo.style.top = y+"%"
+
+}
+
+</script>
+
+</body>
+</html>
